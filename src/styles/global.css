@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/jetbrains-mono';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  /* Colors sampled from the logo: black field, warm-white glyphs, copper Phi glow */
+  --color-ink: #000000;
+  --color-panel: #0b0b0c;
+  --color-line: #1f1e1d;
+  --color-paper: #f4f2ef;
+  --color-muted: #9b958f;
+  --color-copper-200: #f6dcc6;
+  --color-copper-300: #eec1a0;
+  --color-copper-400: #e3a57a;
+  --color-copper-500: #c9845a;
+  --color-copper-600: #a3653f;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-copper-400) 40%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-copper-400);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@utility text-glow {
+  background: linear-gradient(180deg, var(--color-paper) 30%, var(--color-copper-300));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+.cursor {
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes halo {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.04); }
+}
+.halo {
+  animation: halo 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor, .halo { animation: none; }
+}

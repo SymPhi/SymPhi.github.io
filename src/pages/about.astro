@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ComingSoon from '../components/ComingSoon.astro';
+import avatar from '../assets/symphi-github-avatar-hd.png';
+import { SITE } from '../config';
+---
+
+<Base title="About" description={`About ${SITE.name}.`}>
+  <PageHeader eyebrow="about" title={`About ${SITE.name}`} />
+
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 md:grid-cols-[1fr_18rem]">
+    <div class="space-y-6">
+      <section>
+        <h2 class="font-display text-xl font-semibold">Who we are</h2>
+        <div class="mt-4"><ComingSoon /></div>
+      </section>
+      <section>
+        <h2 class="font-display text-xl font-semibold">People</h2>
+        <div class="mt-4"><ComingSoon /></div>
+      </section>
+    </div>
+
+    <aside class="h-fit overflow-hidden rounded-2xl border border-white/10 bg-panel">
+      <Image src={avatar} alt={`${SITE.name} logo`} width={576} class="aspect-square w-full" />
+      <div class="border-t border-white/5 p-5">
+        <p class="font-display font-semibold">{SITE.name}</p>
+        <a href={SITE.github} class="mt-1 block font-mono text-sm text-copper-300 hover:text-copper-200">github.com/SymPhi ↗</a>
+      </div>
+    </aside>
+  </div>
+</Base>

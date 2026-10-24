@@ -1,0 +1,13 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = 'Content coming soon.' } = Astro.props;
+---
+
+<div class="rounded-2xl border border-dashed border-white/10 bg-panel/60 px-6 py-14 text-center">
+  <p class="font-mono text-sm text-muted">
+    <span class="text-copper-300">$</span> {label}<span class="cursor ml-0.5 text-copper-300">▍</span>
+  </p>
+  <slot />
+</div>

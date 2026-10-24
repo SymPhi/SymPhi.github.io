@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import wordmark from '../assets/symphi-wordmark.png';
+import { NAV, SITE } from '../config';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-white/5">
+  <div class="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+    <a href="/" aria-label={`${SITE.name} home`}>
+      <Image src={wordmark} alt={SITE.name} width={320} class="h-auto w-36 opacity-90 transition hover:opacity-100" />
+    </a>
+    <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
+      {NAV.map((item) => <li><a href={item.href} class="hover:text-paper">{item.label}</a></li>)}
+      <li><a href={SITE.github} class="hover:text-paper">GitHub</a></li>
+      <li><a href="/rss.xml" class="hover:text-paper">RSS</a></li>
+    </ul>
+  </div>
+  <div class="mx-auto max-w-6xl px-4 pb-10 font-mono text-xs text-muted/70 sm:px-6">
+    © {year} {SITE.name}
+  </div>
+</footer>

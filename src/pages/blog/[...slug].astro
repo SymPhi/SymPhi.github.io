@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <article class="relative">
+    <div class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[40rem] max-w-full -translate-x-1/2 rounded-full bg-copper-500/15 blur-3xl"></div>
+    <div class="relative mx-auto max-w-3xl px-4 pt-16 sm:px-6 sm:pt-24">
+      <a href="/blog" class="font-mono text-sm text-muted hover:text-copper-300">← cd ..</a>
+      <time class="mt-8 block font-mono text-sm text-copper-300" datetime={post.data.date.toISOString()}>{date}</time>
+      <h1 class="text-glow mt-3 font-display text-4xl font-semibold tracking-tight sm:text-5xl">{post.data.title}</h1>
+      {post.data.description && <p class="mt-4 text-lg text-muted">{post.data.description}</p>}
+      <div
+        class="prose prose-invert mt-12 max-w-none border-t border-white/5 pt-10 prose-headings:font-display prose-a:text-copper-300 hover:prose-a:text-copper-200 prose-code:text-copper-200 prose-pre:border prose-pre:border-white/10 prose-pre:bg-panel"
+      >
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
