@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import GlitchLogo from '../components/GlitchLogo.astro';
-import terminalLogo from '../../00-logo/symphi-terminal.svg';
+import terminalLogo from '../assets/logo/symphi-terminal.svg';
 import { SITE } from '../config';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
