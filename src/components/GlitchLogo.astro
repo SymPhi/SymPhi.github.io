@@ -1,0 +1,146 @@
+---
+// Logo that plays a short glitch (RGB split + horizontal slice shifts) when clicked.
+interface Props {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+const { src, width, height, alt } = Astro.props;
+---
+
+<button type="button" class="glitch" aria-label={`${alt} (click for a glitch)`}>
+  <img class="glitch-base" src={src} width={width} height={height} alt={alt} fetchpriority="high" />
+  <span class="glitch-ch glitch-r" aria-hidden="true"><img src={src} alt="" /></span>
+  <span class="glitch-ch glitch-c" aria-hidden="true"><img src={src} alt="" /></span>
+  <span class="glitch-slice glitch-s1" aria-hidden="true"><img src={src} alt="" /></span>
+  <span class="glitch-slice glitch-s2" aria-hidden="true"><img src={src} alt="" /></span>
+</button>
+
+<script>
+  const DURATION = 650;
+  document.querySelectorAll<HTMLButtonElement>('.glitch').forEach((el) => {
+    let timer: number | undefined;
+    el.addEventListener('click', () => {
+      el.classList.remove('is-glitching');
+      void el.offsetWidth; // restart the animation on rapid clicks
+      el.classList.add('is-glitching');
+      clearTimeout(timer);
+      timer = window.setTimeout(() => el.classList.remove('is-glitching'), DURATION);
+    });
+  });
+</script>
+
+<style>
+  .glitch {
+    position: relative;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    isolation: isolate;
+    border-radius: 1rem;
+    filter: drop-shadow(0 0 60px rgba(201, 132, 90, 0.25));
+    -webkit-tap-highlight-color: transparent;
+  }
+  .glitch img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Effect layers stay unrendered until a click */
+  .glitch-ch,
+  .glitch-slice {
+    position: absolute;
+    inset: 0;
+    display: none;
+    pointer-events: none;
+  }
+  .is-glitching .glitch-ch,
+  .is-glitching .glitch-slice {
+    display: block;
+  }
+
+  /* Colour channels: multiply by pure red / cyan, then screen them back together.
+     Aligned they rebuild the original; offset they split. */
+  .glitch-ch {
+    isolation: isolate;
+    mix-blend-mode: screen;
+    background: #000;
+  }
+  .glitch-ch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: multiply;
+  }
+  .glitch-r::after { background: #ff0000; }
+  .glitch-c::after { background: #00ffff; }
+  .is-glitching .glitch-base { opacity: 0; }
+
+  .is-glitching { animation: glitch-jitter 650ms steps(1, end); }
+  .is-glitching .glitch-r { animation: glitch-r 650ms steps(1, end); }
+  .is-glitching .glitch-c { animation: glitch-c 650ms steps(1, end); }
+  .is-glitching .glitch-s1 { animation: glitch-s1 650ms steps(1, end); }
+  .is-glitching .glitch-s2 { animation: glitch-s2 650ms steps(1, end); }
+
+  @keyframes glitch-jitter {
+    0% { transform: translate(0, 0); }
+    15% { transform: translate(-0.4%, 0); }
+    30% { transform: translate(0.3%, 0.2%); }
+    55% { transform: translate(-0.2%, -0.2%); }
+    75% { transform: translate(0.2%, 0); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes glitch-r {
+    0% { transform: translate(-0.9%, 0); }
+    12% { transform: translate(-0.3%, 0.3%); }
+    25% { transform: translate(-1.4%, 0); }
+    40% { transform: translate(0.5%, -0.3%); }
+    55% { transform: translate(-0.8%, 0); }
+    70% { transform: translate(-0.3%, 0); }
+    85% { transform: translate(-0.6%, 0.2%); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes glitch-c {
+    0% { transform: translate(0.9%, 0); }
+    12% { transform: translate(0.4%, -0.3%); }
+    25% { transform: translate(1.2%, 0); }
+    40% { transform: translate(-0.4%, 0.3%); }
+    55% { transform: translate(0.8%, 0); }
+    70% { transform: translate(0.2%, 0); }
+    85% { transform: translate(0.5%, -0.2%); }
+    100% { transform: translate(0, 0); }
+  }
+  /* Horizontal slices: a band of the logo jumps sideways */
+  @keyframes glitch-s1 {
+    0% { clip-path: inset(22% 0 62% 0); transform: translateX(-2.5%); }
+    15% { clip-path: inset(48% 0 38% 0); transform: translateX(3%); }
+    30% { clip-path: inset(70% 0 18% 0); transform: translateX(-1.5%); }
+    45% { clip-path: inset(30% 0 55% 0); transform: translateX(4%); }
+    60% { clip-path: inset(58% 0 30% 0); transform: translateX(-3%); }
+    75% { clip-path: inset(12% 0 80% 0); transform: translateX(1.5%); }
+    90% { clip-path: inset(40% 0 52% 0); transform: translateX(-1%); }
+    100% { clip-path: inset(100% 0 0 0); transform: none; }
+  }
+  @keyframes glitch-s2 {
+    0% { clip-path: inset(64% 0 26% 0); transform: translateX(2%); }
+    20% { clip-path: inset(35% 0 58% 0); transform: translateX(-3.5%); }
+    35% { clip-path: inset(80% 0 10% 0); transform: translateX(2.5%); }
+    50% { clip-path: inset(18% 0 74% 0); transform: translateX(-2%); }
+    65% { clip-path: inset(44% 0 46% 0); transform: translateX(3%); }
+    80% { clip-path: inset(66% 0 28% 0); transform: translateX(-1.5%); }
+    100% { clip-path: inset(100% 0 0 0); transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .is-glitching,
+    .is-glitching .glitch-ch,
+    .is-glitching .glitch-slice { animation: none; }
+    .is-glitching .glitch-slice { display: none; }
+    .is-glitching .glitch-r { transform: translateX(-0.6%); }
+    .is-glitching .glitch-c { transform: translateX(0.6%); }
+  }
+</style>

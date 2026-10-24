@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import GlitchLogo from '../components/GlitchLogo.astro';
 import terminalLogo from '../../00-logo/symphi-terminal.svg';
 import { SITE } from '../config';
 
@@ -51,14 +52,7 @@ const sections = [
       </a>
 
       <div class="mx-auto mt-10 max-w-4xl">
-        <img
-          src={terminalLogo.src}
-          width={terminalLogo.width}
-          height={terminalLogo.height}
-          alt={`${SITE.name} logo`}
-          fetchpriority="high"
-          class="h-auto w-full drop-shadow-[0_0_60px_rgba(201,132,90,0.25)]"
-        />
+        <GlitchLogo src={terminalLogo.src} width={terminalLogo.width} height={terminalLogo.height} alt={`${SITE.name} logo`} />
       </div>
 
       <h1 class="mt-12 font-mono text-2xl text-paper sm:text-4xl">
