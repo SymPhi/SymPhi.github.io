@@ -21,4 +21,4 @@ npm run dev     # http://localhost:4321
 | Publications | `src/data/publications.ts` |
 | Blog posts | `src/content/blog/*.md` |
 | Colors and fonts | `src/styles/global.css` |
-| Logo source files | `00-logo/` (site copies live in `src/assets/`) |
+| Logo source files | `00-logo/` (home hero uses `00-logo/symphi-terminal.svg` directly; other copies live in `src/assets/`) |

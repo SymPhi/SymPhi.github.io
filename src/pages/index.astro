@@ -1,8 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import terminalLogo from '../assets/symphi-terminal.png';
+import terminalLogo from '../../00-logo/symphi-terminal.svg';
 import { SITE } from '../config';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -52,12 +51,12 @@ const sections = [
       </a>
 
       <div class="mx-auto mt-10 max-w-4xl">
-        <Image
-          src={terminalLogo}
+        <img
+          src={terminalLogo.src}
+          width={terminalLogo.width}
+          height={terminalLogo.height}
           alt={`${SITE.name} logo`}
-          widths={[640, 960, 1400, 2048]}
-          sizes="(min-width: 1024px) 896px, 100vw"
-          loading="eager"
+          fetchpriority="high"
           class="h-auto w-full drop-shadow-[0_0_60px_rgba(201,132,90,0.25)]"
         />
       </div>
