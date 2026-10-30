@@ -1,6 +1,6 @@
 # SymPhi.github.io
 
-Homepage of the [SymPhi](https://github.com/SymPhi) organization, served at https://symphi.github.io.
+Homepage of the [SymPhi](https://github.com/SymPhi) organization, served at https://symphi.org.
 
 Built with [Astro](https://astro.build) + Tailwind CSS. Every push to `main` deploys automatically via GitHub Actions.
 
